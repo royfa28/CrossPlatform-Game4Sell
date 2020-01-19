@@ -15,9 +15,9 @@ export class SigninPage implements OnInit {
 
   constructor(
     private modal: ModalController,
-    private auth: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -33,33 +33,32 @@ export class SigninPage implements OnInit {
     this.auth.signIn(email, password)
       .then((response) => {
         this.signInForm.reset();
-        this.router.navigate(['/notes']);
+        this.router.navigate(['/homepage']);
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
-  async signUp() {
-    const signUpModal = await this.modal.create({
-      component: SignupPage
-    });
-    signUpModal.onDidDismiss().then((response) => {
-      if (response.data) {
-        //handle signup response
-        const email = response.data.email;
-        const password = response.data.password;
-        this.auth.signUp(email, password)
-          .then((userData) => {
-            // sign up successful
-            this.router.navigate(['/notes']);
-          })
-          .catch((error) => {
-            // handle errors
-          })
-      }
-    })
-    await signUpModal.present();
-  }
-
+  // async signUp() {
+  //   const signUpModal = await this.modal.create({
+  //     component: SignupPage
+  //   });
+  //   signUpModal.onDidDismiss().then((response) => {
+  //     if (response.data) {
+  //       //handle signup response
+  //       const email = response.data.email;
+  //       const password = response.data.password;
+  //       this.auth.signUp(email, password)
+  //         .then((userData) => {
+  //           // sign up successful
+  //           this.router.navigate(['/notes']);
+  //         })
+  //         .catch((error) => {
+  //           // handle errors
+  //         })
+  //     }
+  //   })
+  //   await signUpModal.present();
+  // }
 }
