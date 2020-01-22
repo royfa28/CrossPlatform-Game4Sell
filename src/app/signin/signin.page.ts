@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-signin',
@@ -14,6 +15,7 @@ export class SigninPage implements OnInit {
   signInForm: FormGroup;
 
   constructor(
+    private data: DataService,
     private modal: ModalController,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -40,25 +42,27 @@ export class SigninPage implements OnInit {
       })
   }
 
-  // async signUp() {
-  //   const signUpModal = await this.modal.create({
-  //     component: SignupPage
-  //   });
-  //   signUpModal.onDidDismiss().then((response) => {
-  //     if (response.data) {
-  //       //handle signup response
-  //       const email = response.data.email;
-  //       const password = response.data.password;
-  //       this.auth.signUp(email, password)
-  //         .then((userData) => {
-  //           // sign up successful
-  //           this.router.navigate(['/notes']);
-  //         })
-  //         .catch((error) => {
-  //           // handle errors
-  //         })
-  //     }
-  //   })
-  //   await signUpModal.present();
-  // }
+  async signUp( user ) {
+    const signUpModal = await this.modal.create({
+      component: SignupPage
+    });
+    signUpModal.onDidDismiss().then((response) => {
+      if (response.data) {
+        //handle signup response
+        const email = response.data.email;
+        const password = response.data.password;
+        this.data.addUser(response.data.userData);
+        this.auth.signUp(email, password)
+          .then((userData) => {
+            // sign up successful
+            this.router.navigate(['/homepage']);
+          })
+          .catch((error) => {
+            // handle errors
+            console.log(error);
+          })
+      }
+    })
+    await signUpModal.present();
+  }
 }
