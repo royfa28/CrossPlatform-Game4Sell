@@ -24,6 +24,7 @@ import { SignupPageModule } from './signup/signup.module';
     AppRoutingModule,
     AngularFireModule.initializeApp( environment.firebase ),
     AngularFireAuthModule,
+    AngularFirestoreModule,
     SignupPageModule
   ],
   providers: [

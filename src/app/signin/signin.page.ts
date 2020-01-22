@@ -15,11 +15,11 @@ export class SigninPage implements OnInit {
   signInForm: FormGroup;
 
   constructor(
-    private data: DataService,
     private modal: ModalController,
     private router: Router,
     private formBuilder: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private data: DataService
   ) { }
 
   ngOnInit() {
@@ -51,10 +51,11 @@ export class SigninPage implements OnInit {
         //handle signup response
         const email = response.data.email;
         const password = response.data.password;
-        this.data.addUser(response.data.userData);
+        const userDetails = response.data.userData;
         this.auth.signUp(email, password)
           .then((userData) => {
             // sign up successful
+            this.data.addUser(userDetails);
             this.router.navigate(['/homepage']);
           })
           .catch((error) => {

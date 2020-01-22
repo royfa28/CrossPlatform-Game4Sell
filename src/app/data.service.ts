@@ -25,8 +25,8 @@ export class DataService {
         const userPath = `Users/${this.uid}`
         const path = `notes/${this.uid}/usernotes`;
         // set the collection
-        this.userDetail = afs.doc<User>(path);
-        // this.userDetail = afs.collection<User>(path);
+        this.userDetail = afs.doc<User>(userPath);
+        
       }
     });
   }

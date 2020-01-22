@@ -11,8 +11,9 @@ import { DataService } from '../data.service';
 export class SignupPage implements OnInit {
   private signUpForm:FormGroup;
   constructor( 
-    private modal:ModalController, 
-    private formBuilder:FormBuilder
+    private modal: ModalController,
+    private formBuilder: FormBuilder,
+    private data: DataService
     ) { }
 
   ngOnInit() {
@@ -23,17 +24,16 @@ export class SignupPage implements OnInit {
   }
 
   submit() {
-    this.modal.dismiss({
-      email: this.signUpForm.controls.email.value,
-      password: this.signUpForm.controls.password.value,
-    });
-  }
-
-  addUser(){
     let email = this.signUpForm.controls.email.value;
     let deliveryAddress = "";
     let userData = { email: email, deliveryAddress: deliveryAddress };
-    this.modal.dismiss( userData );
+    //this.data.addUser( userData );
+
+    this.modal.dismiss({
+      email: this.signUpForm.controls.email.value,
+      password: this.signUpForm.controls.password.value,
+      userData
+    });
   }
 
   close() {
