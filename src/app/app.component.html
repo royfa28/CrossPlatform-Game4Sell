@@ -29,6 +29,12 @@
             </ion-button>
           </ion-buttons>
 
+          <ion-buttons slot="start" *ngIf="!user">
+            <ion-button (click)="signIn()" expand="full" >
+                Sign In
+              <ion-icon name="log-out"></ion-icon>
+            </ion-button>
+          </ion-buttons>
 
         </ion-toolbar>
       </ion-footer>

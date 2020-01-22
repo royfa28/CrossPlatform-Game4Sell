@@ -12,18 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Homepage',
-      url: '/homepage',
-      icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    }
-  ];
+  public appPages;
 
   constructor(
     private platform: Platform,
@@ -51,7 +40,8 @@ export class AppComponent {
         this.appPages = [
           {title: 'Profile' , url: '/profile', icon: 'home'},
           {title: 'Homepage' , url: '/homepage', icon: 'home'},
-          {title: 'History' , url: '/history', icon: 'settings'}
+          {title: 'History' , url: '/history', icon: 'settings'},
+          {title: 'Sell with us', url: '/sell-product'}
         ]
         this.user = user;
       }
@@ -59,8 +49,7 @@ export class AppComponent {
         this.appPages = [
           {title: 'Profile' , url: '/profile', icon: 'home'},
           {title: 'Homepage' , url: '/homepage', icon: 'home'},
-          {title: 'History' , url: '/history', icon: 'settings'},
-          {title: 'Sign In', url: '/signin', icon: 'log-in'}
+          {title: 'History' , url: '/history', icon: 'settings'}
         ]
         this.user = null;
       }
@@ -71,5 +60,9 @@ export class AppComponent {
     this.afAuth.auth.signOut().then(() => {
       this.router.navigate(['/homepage']);
     })
+  }
+  
+  signIn(){
+    this.router.navigate(['/signin']);
   }
 }

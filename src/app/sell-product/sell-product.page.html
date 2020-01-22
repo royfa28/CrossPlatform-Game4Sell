@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sell Product</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="stacked">Your email address</ion-label>
+        <ion-input type="email" name="email" placeholder="email@domain.com"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input type="password" name="password" placeholder="Price"></ion-input>
+      </ion-item>
+
+      <ion-button type="submit" color="dark" expand="block" (click)="submit()" >Submit</ion-button>
+    </ion-list>
+  </form>
+</ion-content>
