@@ -45,7 +45,7 @@ export class HomepagePage implements OnInit {
     });
   }
 
-  async getProductDetail( productID ) {
-
+  getProductDetail( productID ) {
+    this.router.navigateByUrl('/product-details/'+productID);
   }
 }

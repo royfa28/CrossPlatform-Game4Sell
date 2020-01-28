@@ -12,9 +12,11 @@
   <ion-grid>
 
     <ion-row>
-      <ion-col class="col-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products" (click)="getProductDetail(product.id)">
+      <ion-col class="col-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let product of products" (click)="getProductDetail(product.Name)">
         <ion-card>
-          <img src="{{product.photoUrl}}" />
+          <div class="img-container">
+            <img src="{{product.photoUrl}}" />
+          </div>
           <ion-card-header>
             <ion-card-title>{{product.Name}}</ion-card-title>
             <ion-card-subtitle>$ {{product.Price}}</ion-card-subtitle>
