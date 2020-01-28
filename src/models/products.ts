@@ -1,7 +1,8 @@
 export interface Products {
     description: string;
     genre: string;
+    name: string;
     platform: string;
-    price: number;
-    // photoURL: string;
+    price: string;
+    photoURL: string;
 }

@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
 import { SignupPageModule } from './signup/signup.module';
 import { DataService } from './data.service';
+import { ProductDetailsPageModule } from './product-details/product-details.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,8 @@ import { DataService } from './data.service';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
-    SignupPageModule
+    SignupPageModule,
+    ProductDetailsPageModule
   ],
   providers: [
     { provide: StorageBucket, useValue: 'gs://games-4-sell.appspot.com/' },
