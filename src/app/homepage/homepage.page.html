@@ -11,11 +11,13 @@
   <ion-searchbar color="tertiary"></ion-searchbar>
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let note of notes" size="6" (click)="getNoteDetail(note.id)">
+      <ion-col *ngFor="let product of products" size="6" (click)="getNoteDetail(note.id)">
         <ion-card>
-        <ion-card-header>
-          {{product.name}}
-        </ion-card-header>
+          <img src="{{product.photoUrl}}" />
+          <ion-card-header>
+            <ion-card-title>{{product.id}}</ion-card-title>
+            <ion-card-subtitle>$ {{product.Price}}</ion-card-subtitle>
+          </ion-card-header>
         </ion-card>
       </ion-col>
     </ion-row>
