@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Products } from '../../models/products'
-import { DataService } from '../data.service';
+import { DataService } from '../data/data.service';
 import { ModalController } from '@ionic/angular';
-import * as firebase from 'firebase';
-import { ProductDetailsPage } from '../product-details/product-details.page';
 import { Router, NavigationExtras } from '@angular/router';
+import { ProductDetailService } from '../data/product-detail.service';
 
 @Component({
   selector: 'app-homepage',
@@ -19,7 +18,8 @@ export class HomepagePage implements OnInit {
   constructor(
     private data: DataService,
     private modal: ModalController,
-    private router: Router
+    private router: Router,
+    private productDetailData: ProductDetailService
   ) { 
   }
 
@@ -37,15 +37,14 @@ export class HomepagePage implements OnInit {
       this.products = data;
     });
   }
-  getPhotoURL(imageSource){
-
-    firebase.storage().ref().child('Product thumbnail/'+imageSource+'.jpg')
-    .getDownloadURL().then((url) =>{
-      console.log(url);
-    });
-  }
 
   getProductDetail( productID ) {
-    this.router.navigateByUrl('/product-details/'+productID);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        user: productID
+      }
+    };
+    console.log(navigationExtras);
+    this.router.navigate(['product-details'], navigationExtras);
   }
 }

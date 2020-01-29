@@ -1,5 +1,7 @@
 {
   "name": "Game4Sell",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

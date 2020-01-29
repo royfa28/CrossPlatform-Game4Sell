@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
-import { DataService } from '../data.service';
+import { DataService } from '../data/data.service';
 
 @Component({
   selector: 'app-signin',

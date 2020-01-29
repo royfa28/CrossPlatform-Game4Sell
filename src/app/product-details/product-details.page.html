@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Detail for {{Name}}</ion-title>
+  <ion-toolbar *ngIf="detail">
+    <ion-title>Detail for {{detail.Name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 

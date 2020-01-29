@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { DataService } from '../data.service';
+import { DataService } from '../data/data.service';
 
 @Component({
   selector: 'app-signup',

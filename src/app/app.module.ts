@@ -16,8 +16,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
 import { SignupPageModule } from './signup/signup.module';
-import { DataService } from './data.service';
+import { DataService } from './data/data.service';
 import { ProductDetailsPageModule } from './product-details/product-details.module';
+import { ProductDetailService } from './data/product-detail.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { ProductDetailsPageModule } from './product-details/product-details.modu
   providers: [
     { provide: StorageBucket, useValue: 'gs://games-4-sell.appspot.com/' },
     DataService,
+    ProductDetailService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

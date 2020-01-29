@@ -20,7 +20,6 @@ export class DataService {
   public userDetail$ = new BehaviorSubject<User[]>([]);
   private uid: string;
   private authStatus: Subscription;
-  private data = [];
 
   constructor(
     private afs: AngularFirestore,
