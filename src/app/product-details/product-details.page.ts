@@ -1,11 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController, AlertController } from '@ionic/angular';
-import { DataService } from '../data/data.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firestore';
 import { Products } from 'src/models/products';
-import { ProductDetailService } from '../data/product-detail.service';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 
@@ -52,7 +48,7 @@ export class ProductDetailsPage implements OnInit {
       return (this.detail);
       })
   }
-  
+
   update(product: Products) {
     this.productDoc.update(product);
   }
