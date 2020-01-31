@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Products } from 'src/models/products';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,14 @@ export class ProductDetailService {
    }
 
   productDetail(productID){
-    return this.afs.collection('Products').doc(productID).snapshotChanges();
+    var rootRef = firebase.firestore();
+    var codesRef = rootRef.collection('Products').doc(productID);
+    codesRef.get().then(function(document) {
+      var data = document.data();
+      console.log(Object.keys(data));
+      return (data);
+    })
+
+    // return this.afs.collection('Products').doc(productID).snapshotChanges();
   }
 }

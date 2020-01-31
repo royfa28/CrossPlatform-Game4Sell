@@ -7,6 +7,7 @@ import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firest
 import { Products } from 'src/models/products';
 import { ProductDetailService } from '../data/product-detail.service';
 import { Observable } from 'rxjs';
+import * as firebase from 'firebase';
 
 
 @Component({
@@ -18,48 +19,40 @@ export class ProductDetailsPage implements OnInit {
 
   private productDoc: AngularFirestoreDocument<Products>;
   product: Observable<Products>;
+  private details: Array<Products> = new Array();
 
   detail: any;
 
   constructor(
-    private modal: ModalController, 
-    private formBuilder: FormBuilder, 
-    private data: DataService,
-    private alert: AlertController,
     private route: ActivatedRoute,
     private router: Router,
-    private prodDetail: ProductDetailService,
     private afs: AngularFirestore
   ) {
     
     //Get the product 
     // Only work once, disappear when refresh
+   }
+
+  ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.detail = this.router.getCurrentNavigation().extras.state.user;
       }
     });
 
-    // Can't make it work, give the wrong value
-
-    // const path = `Products/${this.detail}`;
-    // this.productDoc = afs.doc<Products>(path);
-    // this.product = this.productDoc.valueChanges();
-    // console.log(this.product);
-    
-   }
-
-  ngOnInit() {
-    // this.productDetail(this.detail);
-    // console.log(this.detail);
+    this.productDetail(this.detail.id);
+    console.log(this.detail.id + "  Test");
   }
 
-  productDetail(ID){
-    this.prodDetail.productDetail(ID).subscribe(data =>{
-      console.log(data);
-    })
+  productDetail(productID){
+    var db = firebase.firestore();
+    db.collection('Products').doc(productID).get().then((snapshot) =>{
+      this.detail = snapshot.data();
+      console.log(this.detail);
+      return (this.detail);
+      })
   }
-
+  
   update(product: Products) {
     this.productDoc.update(product);
   }
