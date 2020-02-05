@@ -9,11 +9,20 @@
     <ion-label position="stacked">{{detail.name}}</ion-label>
   </ion-row>
 
-  <ion-row style="height: 20%;">
-    <div class="img-container">
-      <img class="card-img-top img-fluid" src="{{detail.photoUrl}}" />
-    </div>
+  <ion-row>
+    <ion-col class="img-container">
+      <img src="{{detail.photoUrl}}" />
+    </ion-col>
   </ion-row>
-       
- 
+
+  <ion-row>
+    Platform
+  </ion-row>
+
+  <ion-row>
+    <ion-button (click)="onClick()">
+      Click me
+    </ion-button>
+  </ion-row>
+
 </ion-content>
