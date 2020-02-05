@@ -17,14 +17,12 @@ export class ProductDetailsPage implements OnInit {
 
   private productDoc: AngularFirestoreDocument<Products>;
   product: Observable<Products>;
-  private details: Array<Products> = new Array();
 
   detail: any;
-
+  ID: String;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
     private alertController: AlertController
   ) {
@@ -48,6 +46,7 @@ export class ProductDetailsPage implements OnInit {
     var db = firebase.firestore();
     db.collection('Products').doc(productID).get().then((snapshot) =>{
       this.detail = snapshot.data();
+      this.ID = snapshot.id;
       console.log(this.detail);
       return (this.detail);
       })
@@ -61,9 +60,9 @@ export class ProductDetailsPage implements OnInit {
   addToCart(){
     this.afAuth.authState.subscribe(( user ) => {
       if( user ) {
-
+        
         this.user = user;
-        console.log("Logged in");
+        console.log(this.ID);
       }else{
         this.presentAlert();
         this.user = null;

@@ -3,7 +3,6 @@ import { Products } from '../../models/products'
 import { DataService } from '../data/data.service';
 import { ModalController } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
-import { ProductDetailService } from '../data/product-detail.service';
 
 @Component({
   selector: 'app-homepage',
@@ -18,8 +17,7 @@ export class HomepagePage implements OnInit {
   constructor(
     private data: DataService,
     private modal: ModalController,
-    private router: Router,
-    private productDetailData: ProductDetailService
+    private router: Router
   ) { 
   }
 
