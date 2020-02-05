@@ -27,7 +27,8 @@ export class SignupPage implements OnInit {
   submit() {
     let email = this.signUpForm.controls.email.value;
     let deliveryAddress = "";
-    let userData = { email: email, deliveryAddress: deliveryAddress };
+    let fullName = this.signUpForm.controls.name.value;
+    let userData = { email: email, deliveryAddress: deliveryAddress, fullName: fullName };
     //this.data.addUser( userData );
 
     this.modal.dismiss({

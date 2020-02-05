@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AlertController } from '@ionic/angular';
+import { ShoppingCartService } from '../data/shopping-cart.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class ProductDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private afAuth: AngularFireAuth,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private shopCart: ShoppingCartService
   ) {
     
     //Get the product 
@@ -60,9 +62,9 @@ export class ProductDetailsPage implements OnInit {
   addToCart(){
     this.afAuth.authState.subscribe(( user ) => {
       if( user ) {
-        
+        this.shopCart.addToCart(this.ID, user.uid, this.detail);
         this.user = user;
-        console.log(this.ID);
+        console.log(this.ID, user.uid);
       }else{
         this.presentAlert();
         this.user = null;
