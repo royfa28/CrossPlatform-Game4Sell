@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!cart">
+<ion-content>
   <ion-row *ngFor="let cart of Cart" class="ion-align-items-center card">
     <ion-col size="2">
       <img src="{{cart.photoUrl}}">
@@ -41,7 +41,7 @@
 
     <ion-col size="2">
       <ion-buttons>
-        <ion-button (click)="remove()"><ion-icon name="close"></ion-icon></ion-button>
+        <ion-button (click)="remove(cart.id)"><ion-icon name="close"></ion-icon></ion-button>
       </ion-buttons>
     </ion-col>
 
@@ -55,7 +55,7 @@
     </ion-col>
 
     <ion-col size="3">
-      $$ {{total | number:'1.2-2'}}
+      $ {{total | number:'1.2-2'}}
     </ion-col>
   </ion-row>
 </ion-footer>

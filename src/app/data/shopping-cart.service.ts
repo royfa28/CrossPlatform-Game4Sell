@@ -77,7 +77,7 @@ export class ShoppingCartService {
     console.log("Total Price",this.total);
   }
 
-   minus( productID ){
+  minus( productID ){
     const productPath = `Users/${this.uid}/shoppingCart/${productID}`;
     var Quantity;
     var db = firebase.firestore();
@@ -98,9 +98,9 @@ export class ShoppingCartService {
         this.getShopCart(this.uid);
       }
     });
-   }
+  }
 
-   plus( productID ){
+  plus( productID ){
     const productPath = `Users/${this.uid}/shoppingCart/${productID}`;
     var Quantity;
     var db = firebase.firestore();
@@ -120,7 +120,14 @@ export class ShoppingCartService {
         this.getShopCart(this.uid);
       }
     });
-   }
+  }
+
+  remove( productID ){
+    var db = firebase.firestore();
+    db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
+    this.total = 0;
+    this.getShopCart(this.uid);
+  }
 
   async maxAmount() {
     const alert = await this.alertController.create({

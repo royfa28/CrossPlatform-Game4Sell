@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../data/shopping-cart.service';
-import { BehaviorSubject } from 'rxjs';
 import { ShopCart } from 'src/models/shop-cart';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,8 +14,6 @@ export class ShoppingCartPage implements OnInit {
   constructor(
     private shopCartData: ShoppingCartService
   ) {
-    // this.total = shopCartData.total;
-    
    }
 
   ngOnInit() {
@@ -39,5 +35,9 @@ export class ShoppingCartPage implements OnInit {
 
   plus( productID ){
     this.shopCartData.plus( productID );
+  }
+
+  remove( productID ){
+    this.shopCartData.remove( productID );
   }
 }
