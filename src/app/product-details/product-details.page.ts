@@ -4,6 +4,8 @@ import { AngularFirestoreDocument, AngularFirestore } from '@angular/fire/firest
 import { Products } from 'src/models/products';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -22,7 +24,9 @@ export class ProductDetailsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private afAuth: AngularFireAuth,
+    private alertController: AlertController
   ) {
     
     //Get the product 
@@ -51,5 +55,35 @@ export class ProductDetailsPage implements OnInit {
 
   update(product: Products) {
     this.productDoc.update(product);
+  }
+
+  user:any;
+  addToCart(){
+    this.afAuth.authState.subscribe(( user ) => {
+      if( user ) {
+
+        this.user = user;
+        console.log("Logged in");
+      }else{
+        this.presentAlert();
+        this.user = null;
+        console.log("Not logged");
+      }
+    });
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Not logged-in',
+      message: 'You have to logged in to add things to cart.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  goToShopCart(){
+    this.router.navigate(['shopping-cart']);
   }
 }

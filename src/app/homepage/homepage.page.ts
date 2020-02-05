@@ -47,4 +47,8 @@ export class HomepagePage implements OnInit {
     console.log(navigationExtras);
     this.router.navigate(['product-details', productID.id], navigationExtras);
   }
+
+  goToShopCart(){
+    this.router.navigate(['shopping-cart']);
+  }
 }
