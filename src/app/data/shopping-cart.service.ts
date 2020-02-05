@@ -20,6 +20,7 @@ export class ShoppingCartService {
   public total: number = 0;
 
   uid: string;
+  product: any;
 
   constructor(
     private afs: AngularFirestore,
@@ -62,7 +63,7 @@ export class ShoppingCartService {
       const data = a.payload.doc.data() as ShopCart;
 
       // Round about way to make total price, is there better way?
-      const totalPrice = (data.Price * data.Quantity) + this.total;
+      const totalPrice = (data.Price * data.Quantity) ;
       this.total = totalPrice;
       const id = a.payload.doc.id;
       return { id, ...data, totalPrice };
@@ -70,6 +71,46 @@ export class ShoppingCartService {
    }
 
    minus( productID ){
-    
+    const productPath = `Users/${this.uid}/shoppingCart/${productID}`;
+    var Quantity;
+    var db = firebase.firestore();
+
+    db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then((snapshot) =>{
+      this.product = snapshot.data();
+      Quantity = this.product.Quantity;
+      console.log(this.product.Quantity);
+
+      if(Quantity <= 1){
+        db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
+      }else{
+        var quantity ={
+          Quantity: this.product.Quantity - 1
+        }
+        db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).update(quantity);
+        this.getShopCart(this.uid);
+      }
+    });
+   }
+
+   plus( productID ){
+    const productPath = `Users/${this.uid}/shoppingCart/${productID}`;
+    var Quantity;
+    var db = firebase.firestore();
+
+    db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then((snapshot) =>{
+      this.product = snapshot.data();
+      Quantity = this.product.Quantity;
+      console.log(this.product.Quantity);
+
+      if(Quantity >= 5){
+        console.log("Can only buy 5 of the same product");
+      }else{
+        var quantity ={
+          Quantity: this.product.Quantity + 1
+        }
+        db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).update(quantity);
+        this.getShopCart(this.uid);
+      }
+    });
    }
 }

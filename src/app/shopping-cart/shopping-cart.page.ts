@@ -35,4 +35,8 @@ export class ShoppingCartPage implements OnInit {
     this.shopCartData.minus( productID );
   }
 
+  plus( productID ){
+    this.shopCartData.plus( productID );
+  }
+
 }

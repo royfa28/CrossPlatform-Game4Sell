@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Shopping cart</ion-title>
   </ion-toolbar>
@@ -32,7 +32,7 @@
 
         <ion-col size="2">
           <ion-buttons>
-            <ion-button (click)="plus()"><ion-icon name="add"></ion-icon></ion-button>
+            <ion-button (click)="plus(cart.id)"><ion-icon name="add"></ion-icon></ion-button>
           </ion-buttons>
         </ion-col>
 
@@ -55,7 +55,7 @@
     </ion-col>
 
     <ion-col size="3">
-      $$ {{total}}
+      $$ {{total | number:'1.2-2'}}
     </ion-col>
   </ion-row>
 </ion-footer>
