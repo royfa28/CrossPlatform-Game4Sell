@@ -1,0 +1,12 @@
+.img-container{
+    width: 100vw;
+    height: 20vh;
+    text-align: center;
+}
+
+.img-container img{
+    width: 200px;
+    padding: 5px;
+    object-fit: cover;
+    height: auto;
+}

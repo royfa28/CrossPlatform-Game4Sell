@@ -9,7 +9,7 @@ import { DataService } from '../data/data.service';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  private signUpForm:FormGroup;
+  public signUpForm:FormGroup;
   constructor( 
     private modal: ModalController,
     private formBuilder: FormBuilder,

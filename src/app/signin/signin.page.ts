@@ -42,7 +42,7 @@ export class SigninPage implements OnInit {
       })
   }
 
-  async signUp( user ) {
+  async signUp() {
     const signUpModal = await this.modal.create({
       component: SignupPage
     });
