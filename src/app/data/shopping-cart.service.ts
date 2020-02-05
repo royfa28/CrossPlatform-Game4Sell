@@ -73,7 +73,6 @@ export class ShoppingCartService {
    }
 
   getTotalPrice( totalPrice ){
-    this.total = 0;
     this.total = totalPrice + this.total;
     console.log("Total Price",this.total);
   }
@@ -94,6 +93,7 @@ export class ShoppingCartService {
         var quantity ={
           Quantity: this.product.Quantity - 1
         }
+        this.total = 0;
         db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).update(quantity);
         this.getShopCart(this.uid);
       }
@@ -115,6 +115,7 @@ export class ShoppingCartService {
         var quantity ={
           Quantity: this.product.Quantity + 1
         }
+        this.total = 0;
         db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).update(quantity);
         this.getShopCart(this.uid);
       }

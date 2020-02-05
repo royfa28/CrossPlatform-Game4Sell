@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="!cart">
   <ion-row *ngFor="let cart of Cart" class="ion-align-items-center card">
     <ion-col size="2">
       <img src="{{cart.photoUrl}}">
