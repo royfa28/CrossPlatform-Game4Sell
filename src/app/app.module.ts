@@ -19,6 +19,7 @@ import { SignupPageModule } from './signup/signup.module';
 import { DataService } from './data/data.service';
 import { ProductDetailsPageModule } from './product-details/product-details.module';
 import { ShoppingCartService } from './data/shopping-cart.service';
+import { ShoppingCartPageModule } from './shopping-cart/shopping-cart.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { ShoppingCartService } from './data/shopping-cart.service';
     AngularFirestoreModule,
     AngularFireStorageModule,
     SignupPageModule,
-    ProductDetailsPageModule
+    ProductDetailsPageModule,
+    ShoppingCartPageModule
   ],
   providers: [
     { provide: StorageBucket, useValue: 'gs://games-4-sell.appspot.com/' },

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { ShopCart } from 'src/models/shop-cart';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,9 @@ export class ShoppingCartService {
 
   constructor(
     private afs: AngularFirestore,
-    private afauth: AngularFireAuth
+    private afauth: AngularFireAuth,
+    private alertController: AlertController,
+    private toastController: ToastController
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -63,11 +65,16 @@ export class ShoppingCartService {
       const data = a.payload.doc.data() as ShopCart;
 
       // Round about way to make total price, is there better way?
-      const totalPrice = (data.Price * data.Quantity) ;
-      this.total = totalPrice;
+      const totalPrice = (data.Price * data.Quantity);
+      this.getTotalPrice(totalPrice);
       const id = a.payload.doc.id;
       return { id, ...data, totalPrice };
     })))
+   }
+
+   getTotalPrice( totalPrice ){
+    this.total = totalPrice + this.total;
+    console.log("Total",this.total);
    }
 
    minus( productID ){
@@ -78,9 +85,9 @@ export class ShoppingCartService {
     db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then((snapshot) =>{
       this.product = snapshot.data();
       Quantity = this.product.Quantity;
-      console.log(this.product.Quantity);
 
       if(Quantity <= 1){
+        this.deletedToast();
         db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
       }else{
         var quantity ={
@@ -100,10 +107,9 @@ export class ShoppingCartService {
     db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then((snapshot) =>{
       this.product = snapshot.data();
       Quantity = this.product.Quantity;
-      console.log(this.product.Quantity);
 
       if(Quantity >= 5){
-        console.log("Can only buy 5 of the same product");
+        this.maxAmount();
       }else{
         var quantity ={
           Quantity: this.product.Quantity + 1
@@ -113,4 +119,22 @@ export class ShoppingCartService {
       }
     });
    }
+
+  async maxAmount() {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: 'You can only buy 5 of the same product.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async deletedToast() {
+    const toast = await this.toastController.create({
+      message: 'Products have been deleted',
+      duration: 2000
+    });
+    toast.present();
+  }
 }
