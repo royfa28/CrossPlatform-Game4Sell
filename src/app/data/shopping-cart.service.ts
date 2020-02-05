@@ -72,10 +72,11 @@ export class ShoppingCartService {
     })))
    }
 
-   getTotalPrice( totalPrice ){
+  getTotalPrice( totalPrice ){
+    this.total = 0;
     this.total = totalPrice + this.total;
-    console.log("Total",this.total);
-   }
+    console.log("Total Price",this.total);
+  }
 
    minus( productID ){
     const productPath = `Users/${this.uid}/shoppingCart/${productID}`;

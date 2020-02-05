@@ -17,6 +17,7 @@ export class ShoppingCartPage implements OnInit {
     private shopCartData: ShoppingCartService
   ) {
     // this.total = shopCartData.total;
+    
    }
 
   ngOnInit() {
