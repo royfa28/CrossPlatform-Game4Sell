@@ -37,14 +37,18 @@ export class ShoppingCartService {
         this.shopCart.next(data);
       });
     }
-  });
+    });
 
   }
 
   // Function with productID, userID, and product Array inside
   addToCart(productID, userID, product){
-    const shopCartPath = `Users/${userID}/shoppingCart/${productID}`;
-    this.shopCartDocument = this.afs.doc<ShopCart>(shopCartPath);
+    const addProduct = `Users/${userID}/shoppingCart/${productID}`;
+    const checkCart = `Users/${userID}/shoppingCart`;
+    this.shopCartDocument = this.afs.doc<ShopCart>(addProduct);
+    this.shopCartCollection = this.afs.collection<ShopCart>(checkCart);
+
+    var db = firebase.firestore();
 
     // Setting up the data itself, so it doesn't take all the field inside product
     var productData = {
@@ -53,8 +57,24 @@ export class ShoppingCartService {
       Price: product.Price,
       Quantity: 1
     }
+    
     this.shopCartDocument.set(productData);
-   }
+    this.addedToCart();
+
+/*
+    this.shopCartCollection.snapshotChanges()
+    .pipe( map(actions => actions.map(a => {
+      var id = a.payload.doc.id;
+      if(id == productID){
+        this.plus(productID);
+        console.log("Add more");
+      }else{
+        this.shopCartDocument.set(productData);
+        this.addedToCart();
+      }
+    })))
+*/
+  }
 
   getShopCart( uid ){
     const shopCartPath = `Users/${uid}/shoppingCart`;
@@ -70,15 +90,15 @@ export class ShoppingCartService {
       const id = a.payload.doc.id;
       return { id, ...data, totalPrice };
     })))
-   }
+  }
 
+  // To get total price of product
   getTotalPrice( totalPrice ){
     this.total = totalPrice + this.total;
     console.log("Total Price",this.total);
   }
 
   minus( productID ){
-    const productPath = `Users/${this.uid}/shoppingCart/${productID}`;
     var Quantity;
     var db = firebase.firestore();
 
@@ -142,6 +162,14 @@ export class ShoppingCartService {
   async deletedToast() {
     const toast = await this.toastController.create({
       message: 'Products have been deleted',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async addedToCart(){
+    const toast = await this.toastController.create({
+      message: 'Products added to Cart',
       duration: 2000
     });
     toast.present();

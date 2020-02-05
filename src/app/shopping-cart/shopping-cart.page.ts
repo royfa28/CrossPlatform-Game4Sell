@@ -20,6 +20,7 @@ export class ShoppingCartPage implements OnInit {
     this.getShopCart();
   }
 
+  // Get the data of the shopping cart
   getShopCart(){
     this.shopCartData.shopCart.subscribe((data) => {
       // store products to display in products
