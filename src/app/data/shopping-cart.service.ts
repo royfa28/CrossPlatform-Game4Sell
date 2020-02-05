@@ -23,8 +23,7 @@ export class ShoppingCartService {
 
   constructor(
     private afs: AngularFirestore,
-    private afauth: AngularFireAuth,
-    private afStorage: AngularFireStorage
+    private afauth: AngularFireAuth
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -68,6 +67,9 @@ export class ShoppingCartService {
       const id = a.payload.doc.id;
       return { id, ...data, totalPrice };
     })))
+   }
 
+   minus( productID ){
+    
    }
 }

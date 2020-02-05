@@ -27,11 +27,12 @@ export class ShoppingCartPage implements OnInit {
       // store products to display in products
       this.Cart = data;
       this.total = this.shopCartData.total;
-      
       console.log(data, "Price" , this.total);
     });
   }
 
-
+  minus( productID ){
+    this.shopCartData.minus( productID );
+  }
 
 }
