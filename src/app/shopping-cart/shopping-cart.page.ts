@@ -11,7 +11,7 @@ import { ShopCart } from 'src/models/shop-cart';
 export class ShoppingCartPage implements OnInit {
 
   public Cart: Array<ShopCart> = new Array();
-
+  public total: number;
   constructor(
     private shopCartData: ShoppingCartService
   ) { }
@@ -25,6 +25,7 @@ export class ShoppingCartPage implements OnInit {
       console.log(data);
       // store products to display in products
       this.Cart = data;
+      this.total = this.shopCartData.total;
     });
   }
 }
