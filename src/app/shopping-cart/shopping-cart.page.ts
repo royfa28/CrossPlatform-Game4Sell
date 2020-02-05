@@ -14,7 +14,9 @@ export class ShoppingCartPage implements OnInit {
   public total: number;
   constructor(
     private shopCartData: ShoppingCartService
-  ) { }
+  ) {
+    // this.total = shopCartData.total;
+   }
 
   ngOnInit() {
     this.getShopCart();
@@ -22,10 +24,14 @@ export class ShoppingCartPage implements OnInit {
 
   getShopCart(){
     this.shopCartData.shopCart.subscribe((data) => {
-      console.log(data);
       // store products to display in products
       this.Cart = data;
       this.total = this.shopCartData.total;
+      
+      console.log(data, "Price" , this.total);
     });
   }
+
+
+
 }
