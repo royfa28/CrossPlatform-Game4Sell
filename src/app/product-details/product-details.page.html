@@ -1,5 +1,9 @@
 <ion-header>
   <ion-toolbar *ngIf="detail">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    
     <ion-title>Detail for {{detail.Name}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,12 +15,12 @@
 
   <ion-row>
     <ion-col class="img-container">
-      <img src="{{detail.photoUrl}}" />
+        <img src="{{detail.photoUrl}}" />
     </ion-col>
   </ion-row>
 
   <ion-row>
-    Platform
+    Platform: {{detail.Platform}}
   </ion-row>
 
   <ion-row>

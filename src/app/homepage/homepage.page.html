@@ -10,10 +10,10 @@
 <ion-content>
   <ion-searchbar color="tertiary"></ion-searchbar>
   <ion-grid>
-
     <ion-row>
       <ion-col *ngFor="let product of products" (click)="getProductDetail(product)" size-sm="6" size-md="4" size-lg="3" size-xl="2">
-        <ion-card style="height: 225px; width:inherit;">
+
+        <ion-card>
           <img src="{{product.photoUrl}}" style="text-align: center; object-fit:contain; height: 150px; width: fit-content;"/>
           <ion-card-header class="card-block">
             <ion-card-title class="card-title">{{product.Name}}</ion-card-title>
@@ -21,6 +21,7 @@
           </ion-card-header>
         </ion-card>
       </ion-col>
+
     </ion-row>
 
   </ion-grid>

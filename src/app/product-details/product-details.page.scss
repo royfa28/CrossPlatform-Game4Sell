@@ -1,13 +1,13 @@
 .img-container{
     width: 100vw;
-    height: 20vh;
+    height: 200px;
     text-align: center;
     margin: 0 auto;
 }
 
-.img-container img{
-    height: 100%;
+img{
+    width:auto; 
+    height:100%; 
     padding: 5px;
     object-fit: cover;
-    height: auto;
 }

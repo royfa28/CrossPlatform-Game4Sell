@@ -1,5 +1,26 @@
 ion-card-title{
-    height: 25px;
     overflow: hidden;
-    max-width: inherit;
+    height: 17px;
+    width: auto;
+    font-size: 15px;
+    font-weight: bold;
+    text-overflow: ellipsis;
 }
+
+ion-card{
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    max-width : 100% !important;
+    margin: 0 !important;
+}
+
+img{
+    width:auto; 
+    height:100%; 
+    object-fit: cover;
+}
+ ion-card-header{
+     padding: 5px;
+ }
+
