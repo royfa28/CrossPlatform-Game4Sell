@@ -17,7 +17,8 @@ export class ShoppingCartService {
   public shopCart = new BehaviorSubject<ShopCart[]>([]);
   private authStatus: Subscription;
 
-  public total: number;
+  public total: number = 0;
+
   uid: string;
 
   constructor(
@@ -28,24 +29,22 @@ export class ShoppingCartService {
   {
     this.authStatus = afauth.authState.subscribe((user) => {
     if (user) {
-      // get the user id
+      // Get the user id
       this.uid = user.uid;
-      console.log(user.uid);
       this.getShopCart(this.uid).subscribe((data) =>{
         this.shopCart.next(data);
-        data.forEach( (item) =>{
-          this.total = this.total + (item.Price * item.Quantity);
-        })
       });
     }
   });
 
   }
 
+  // Function with productID, userID, and product Array inside
   addToCart(productID, userID, product){
     const shopCartPath = `Users/${userID}/shoppingCart/${productID}`;
     this.shopCartDocument = this.afs.doc<ShopCart>(shopCartPath);
 
+    // Setting up the data itself, so it doesn't take all the field inside product
     var productData = {
       Name: product.Name,
       photoUrl: product.photoUrl,
@@ -58,12 +57,14 @@ export class ShoppingCartService {
   getShopCart( uid ){
     const shopCartPath = `Users/${uid}/shoppingCart`;
     this.shopCartCollection = this.afs.collection<ShopCart>(shopCartPath);
-    console.log(this.uid, "User ID");
 
     return this.shopCartCollection.snapshotChanges()
     .pipe( map(actions => actions.map(a => {
       const data = a.payload.doc.data() as ShopCart;
-      const totalPrice = data.Price * data.Quantity;
+
+      // Round about way to make total price, is there better way?
+      const totalPrice = (data.Price * data.Quantity) + this.total;
+      this.total = totalPrice;
       const id = a.payload.doc.id;
       return { id, ...data, totalPrice };
     })))
