@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
 import { DataService } from '../data/data.service';
-import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +14,6 @@ import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-ai
 })
 export class SigninPage implements OnInit {
   signInForm: FormGroup;
-  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private modal: ModalController,
@@ -22,14 +21,7 @@ export class SigninPage implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private data: DataService,
-    private platform: Platform,
-    private fingerprint: FingerprintAIO
   ) { 
-    this.fingerprintOptions = {
-      title: 'Log in with fingerprint',
-      description: 'Please put your finger into the fingerprint scanner',
-      disableBackup: true
-    }
   }
 
   ngOnInit() {
@@ -37,24 +29,6 @@ export class SigninPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
-
-    this.showFingerprintDialog();
-  }
-
-  async showFingerprintDialog(){
-    try{
-      await this.platform.ready();
-      const available = await this.fingerprint.isAvailable();
-      console.log(available);
-      if(available == "OK" ){
-        const result = await this.fingerprint.show(this.fingerprintOptions);
-        console.log(result);
-      }
-    }
-    catch(e){
-      console.error(e);
-    }
-
   }
 
   signIn() {

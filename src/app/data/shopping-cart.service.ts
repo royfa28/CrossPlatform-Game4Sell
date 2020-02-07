@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
 import { AlertController, ToastController } from '@ionic/angular';
 import { AlertService } from './alert.service';
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,13 @@ export class ShoppingCartService {
 
   uid: string;
   product: any;
+  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private afs: AngularFirestore,
     private afauth: AngularFireAuth,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private fingerprint: FingerprintAIO
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -38,6 +41,12 @@ export class ShoppingCartService {
       });
     }
     });
+
+    this.fingerprintOptions = {
+      title: 'Log in with fingerprint',
+      description: 'Please put your finger into the fingerprint scanner',
+      disableBackup: true
+    }
 
   }
 
@@ -139,6 +148,21 @@ export class ShoppingCartService {
     db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
     this.total = 0;
     this.getShopCart(this.uid);
+  }
+
+  showFingerprintDialog(){
+    this.fingerprint.show(this.fingerprintOptions)
+    .then(result => {
+      if( result == "biometric_success"){
+        console.log("Add to database");
+      }else{
+        console.log("cancel");
+      }
+      console.log(result);
+    })
+    .catch(err =>{
+      console.log(err);
+    });
   }
 
 }
