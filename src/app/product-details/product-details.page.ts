@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AlertController } from '@ionic/angular';
 import { ShoppingCartService } from '../data/shopping-cart.service';
+import { AlertService } from '../data/alert.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class ProductDetailsPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private afAuth: AngularFireAuth,
-    private alertController: AlertController,
+    private alertService: AlertService,
     private shopCart: ShoppingCartService
   ) {
     
@@ -61,27 +62,16 @@ export class ProductDetailsPage implements OnInit {
   user:any;
   addToCart(){
     this.afAuth.authState.subscribe(( user ) => {
+
+      // Check if user is logged in, only registered user can add products to cart
       if( user ) {
         this.shopCart.addToCart(this.ID, user.uid, this.detail);
         this.user = user;
-        console.log(this.ID, user.uid);
       }else{
-        this.presentAlert();
+        this.alertService.notLoggedin();
         this.user = null;
-        console.log("Not logged");
       }
     });
-  }
-
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Alert',
-      subHeader: 'Not logged-in',
-      message: 'You have to logged in to add things to cart.',
-      buttons: ['OK']
-    });
-
-    await alert.present();
   }
 
   goToShopCart(){

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
 import { DataService } from '../data/data.service';
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 
 @Component({
   selector: 'app-signin',
@@ -13,20 +14,47 @@ import { DataService } from '../data/data.service';
 })
 export class SigninPage implements OnInit {
   signInForm: FormGroup;
+  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private modal: ModalController,
     private router: Router,
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    private data: DataService
-  ) { }
+    private data: DataService,
+    private platform: Platform,
+    private fingerprint: FingerprintAIO
+  ) { 
+    this.fingerprintOptions = {
+      title: 'Log in with fingerprint',
+      description: 'Please put your finger into the fingerprint scanner',
+      disableBackup: true
+    }
+  }
 
   ngOnInit() {
     this.signInForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
+
+    this.showFingerprintDialog();
+  }
+
+  async showFingerprintDialog(){
+    try{
+      await this.platform.ready();
+      const available = await this.fingerprint.isAvailable();
+      console.log(available);
+      if(available == "OK" ){
+        const result = await this.fingerprint.show(this.fingerprintOptions);
+        console.log(result);
+      }
+    }
+    catch(e){
+      console.error(e);
+    }
+
   }
 
   signIn() {

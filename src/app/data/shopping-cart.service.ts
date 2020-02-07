@@ -6,6 +6,7 @@ import { ShopCart } from 'src/models/shop-cart';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
 import { AlertController, ToastController } from '@ionic/angular';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,7 @@ export class ShoppingCartService {
   constructor(
     private afs: AngularFirestore,
     private afauth: AngularFireAuth,
-    private alertController: AlertController,
-    private toastController: ToastController
+    private alertService: AlertService
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -44,9 +44,7 @@ export class ShoppingCartService {
   // Function with productID, userID, and product Array inside
   addToCart(productID, userID, product){
     const addProduct = `Users/${userID}/shoppingCart/${productID}`;
-    const checkCart = `Users/${userID}/shoppingCart`;
     this.shopCartDocument = this.afs.doc<ShopCart>(addProduct);
-    this.shopCartCollection = this.afs.collection<ShopCart>(checkCart);
 
     var db = firebase.firestore();
 
@@ -57,23 +55,17 @@ export class ShoppingCartService {
       Price: product.Price,
       Quantity: 1
     }
-    
-    this.shopCartDocument.set(productData);
-    this.addedToCart();
 
-/*
-    this.shopCartCollection.snapshotChanges()
-    .pipe( map(actions => actions.map(a => {
-      var id = a.payload.doc.id;
-      if(id == productID){
-        this.plus(productID);
-        console.log("Add more");
+    db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then(( doc ) => {
+
+      // Check if the product has already been added to shopping cart
+      if(doc.exists){
+        console.log("Product exist");
       }else{
         this.shopCartDocument.set(productData);
-        this.addedToCart();
+        this.alertService.addedToCart();
       }
-    })))
-*/
+    })
   }
 
   getShopCart( uid ){
@@ -107,7 +99,7 @@ export class ShoppingCartService {
       Quantity = this.product.Quantity;
 
       if(Quantity <= 1){
-        this.deletedToast();
+        this.alertService.deletedToast();
         db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
       }else{
         var quantity ={
@@ -130,7 +122,7 @@ export class ShoppingCartService {
       Quantity = this.product.Quantity;
 
       if(Quantity >= 5){
-        this.maxAmount();
+        this.alertService.maxAmount();
       }else{
         var quantity ={
           Quantity: this.product.Quantity + 1
@@ -149,29 +141,4 @@ export class ShoppingCartService {
     this.getShopCart(this.uid);
   }
 
-  async maxAmount() {
-    const alert = await this.alertController.create({
-      header: 'Alert',
-      message: 'You can only buy 5 of the same product.',
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
-  async deletedToast() {
-    const toast = await this.toastController.create({
-      message: 'Products have been deleted',
-      duration: 2000
-    });
-    toast.present();
-  }
-
-  async addedToCart(){
-    const toast = await this.toastController.create({
-      message: 'Products added to Cart',
-      duration: 2000
-    });
-    toast.present();
-  }
 }
