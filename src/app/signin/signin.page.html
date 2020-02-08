@@ -10,7 +10,7 @@
 <ion-content>
 
   <form [formGroup]="signInForm" id="sign-in">
-    <ion-list>
+    <ion-list class="ion-text-center">
 
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
@@ -23,6 +23,7 @@
       </ion-item>
 
       <ion-button [disabled]="!signInForm.valid" expand="block" type="submit" color="secondary" (click)="signIn()">Sign in</ion-button>
+      <ion-label (click)="forgotPassword()">Forgot password?</ion-label>
       <ion-item>
         <ion-label class="sign-up-label">Don't have an account?</ion-label>
       </ion-item>

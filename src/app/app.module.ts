@@ -20,6 +20,7 @@ import { DataService } from './data/data.service';
 import { ProductDetailsPageModule } from './product-details/product-details.module';
 import { ShoppingCartService } from './data/shopping-cart.service';
 import { ShoppingCartPageModule } from './shopping-cart/shopping-cart.module';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,6 +44,7 @@ import { ShoppingCartPageModule } from './shopping-cart/shopping-cart.module';
     StatusBar,
     SplashScreen,
     FingerprintAIO,
+    EmailComposer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

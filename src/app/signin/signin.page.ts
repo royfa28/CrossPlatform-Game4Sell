@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform, AlertController } from '@ionic/angular';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
 import { DataService } from '../data/data.service';
-import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+import * as firebase from 'firebase';
 
 
 @Component({
@@ -15,7 +15,6 @@ import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-ai
 })
 export class SigninPage implements OnInit {
   signInForm: FormGroup;
-  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private modal: ModalController,
@@ -23,7 +22,7 @@ export class SigninPage implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private data: DataService,
-    private fingerprint: FingerprintAIO
+    private alertController: AlertController,
   ) { 
   }
 
@@ -70,5 +69,48 @@ export class SigninPage implements OnInit {
       }
     })
     await signUpModal.present();
+  }
+
+  async forgotPassword(){
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: 'Forgot your password? <br> Enter your email below to reset',
+      inputs: [
+        {
+          name: 'email',
+          type: 'text',
+          placeholder: 'Your email'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: (data) => {
+            this.resetPassword(data.email);
+            console.log(data);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  resetPassword( email ){
+    var auth = firebase.auth();
+    
+    auth.sendPasswordResetEmail(email).then(function() {
+      // Email sent.
+      console.log("email sent");
+    }).catch(function(error) {
+      // An error happened.
+      console.log(error.message);
+    });
   }
 }
