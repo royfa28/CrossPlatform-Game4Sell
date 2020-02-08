@@ -5,9 +5,8 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { ShopCart } from 'src/models/shop-cart';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, Platform } from '@ionic/angular';
 import { AlertService } from './alert.service';
-import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +22,12 @@ export class ShoppingCartService {
 
   uid: string;
   product: any;
-  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private afs: AngularFirestore,
     private afauth: AngularFireAuth,
     private alertService: AlertService,
-    private fingerprint: FingerprintAIO
+    private platform: Platform
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -41,13 +39,6 @@ export class ShoppingCartService {
       });
     }
     });
-
-    this.fingerprintOptions = {
-      title: 'Log in with fingerprint',
-      description: 'Please put your finger into the fingerprint scanner',
-      disableBackup: true
-    }
-
   }
 
   // Function with productID, userID, and product Array inside
@@ -149,20 +140,4 @@ export class ShoppingCartService {
     this.total = 0;
     this.getShopCart(this.uid);
   }
-
-  showFingerprintDialog(){
-    this.fingerprint.show(this.fingerprintOptions)
-    .then(result => {
-      if( result == "biometric_success"){
-        console.log("Add to database");
-      }else{
-        console.log("cancel");
-      }
-      console.log(result);
-    })
-    .catch(err =>{
-      console.log(err);
-    });
-  }
-
 }

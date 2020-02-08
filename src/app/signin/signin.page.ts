@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
 import { DataService } from '../data/data.service';
+import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { DataService } from '../data/data.service';
 })
 export class SigninPage implements OnInit {
   signInForm: FormGroup;
+  fingerprintOptions: FingerprintOptions;
 
   constructor(
     private modal: ModalController,
@@ -21,6 +23,7 @@ export class SigninPage implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private data: DataService,
+    private fingerprint: FingerprintAIO
   ) { 
   }
 
@@ -29,6 +32,22 @@ export class SigninPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
+    this.showFingerprintDialog();
+  }
+
+  showFingerprintDialog(){
+    this.fingerprint.show(this.fingerprintOptions)
+    .then(result => {
+      if( result == "biometric_success"){
+        console.log("Add to database");
+      }else{
+        console.log("cancel");
+      }
+      console.log(result);
+    })
+    .catch(err =>{
+      console.log(err);
+    });
   }
 
   signIn() {

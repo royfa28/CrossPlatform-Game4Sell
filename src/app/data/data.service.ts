@@ -16,8 +16,8 @@ export class DataService {
   private userDetail: AngularFirestoreDocument<User>;
   private productCollection: AngularFirestoreCollection<Products>;
   public products = new BehaviorSubject<Products[]>([]);
+  public userProfile = new BehaviorSubject<User[]>([]);
 
-  public userDetail$ = new BehaviorSubject<User[]>([]);
   private uid: string;
   private authStatus: Subscription;
 

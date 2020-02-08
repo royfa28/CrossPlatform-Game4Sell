@@ -7,6 +7,44 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="user">
+  <ion-row style="height: 20vh;">
+
+  </ion-row>
+  
+  <ion-row style="padding: 10px;">
+    <ion-col>
+      <ion-list>
+
+        <ion-item>
+          <ion-label> 
+            Fullname 
+            <p>{{user.fullName}}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label> 
+            Email 
+            <p>{{user.email}}</p>
+          </ion-label>
+          <ion-label class="ion-text-right">
+            Change email
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label> 
+            Delivery Address 
+            <p>{{user.deliveryAddress}}</p>
+          </ion-label>
+          <ion-label class="ion-text-right">
+            Change address
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+    </ion-col>
+  </ion-row>
 
 </ion-content>
