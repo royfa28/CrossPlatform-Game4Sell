@@ -8,5 +8,14 @@
 </ion-header>
 
 <ion-content>
+  <ion-row *ngFor="let history of History">
+    <ion-card style="width: 100vw; text-align: center;" (click)="supportEmail()">
+      <ion-card-header>
+        <ion-card-title> {{history.id}}</ion-card-title>
+        <ion-card-subtitle> {{history.details}} </ion-card-subtitle>
+      </ion-card-header>
+      <label style="font-size: 16px;">Total Price: ${{history.totalPrice}}</label>
+    </ion-card>
+  </ion-row>
 
 </ion-content>

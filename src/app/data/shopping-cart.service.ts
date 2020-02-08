@@ -5,8 +5,9 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { ShopCart } from 'src/models/shop-cart';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
-import { AlertController, ToastController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { AlertService } from './alert.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,14 @@ export class ShoppingCartService {
 
   uid: string;
   product: any;
+  productID: string;
 
   constructor(
     private afs: AngularFirestore,
     private afauth: AngularFireAuth,
     private alertService: AlertService,
-    private platform: Platform
+    private platform: Platform,
+    private router: Router
   ) 
   {
     this.authStatus = afauth.authState.subscribe((user) => {
@@ -75,7 +78,6 @@ export class ShoppingCartService {
     return this.shopCartCollection.snapshotChanges()
     .pipe( map(actions => actions.map(a => {
       const data = a.payload.doc.data() as ShopCart;
-
       // Round about way to make total price, is there better way?
       const totalPrice = (data.Price * data.Quantity);
       this.getTotalPrice(totalPrice);
@@ -88,6 +90,23 @@ export class ShoppingCartService {
   getTotalPrice( totalPrice ){
     this.total = totalPrice + this.total;
     console.log("Total Price",this.total);
+  }
+
+  removeCart(){
+    const shopCartPath = `Users/${this.uid}/shoppingCart`;
+    this.shopCartCollection = this.afs.collection<ShopCart>(shopCartPath);
+    var db = firebase.firestore();
+
+    db.collection('Users').doc(this.uid).collection('shoppingCart').get().then((snapshot) =>{
+      snapshot.forEach( (doc) =>{
+        db.collection('Users').doc(this.uid).collection('shoppingCart').doc(doc.id).delete().then(() =>{
+          console.log(doc.id, "Document delete");
+        }).catch((error) =>{
+          console.log(error);
+        })
+      })
+    });
+    this.router.navigate(['homepage']);
   }
 
   minus( productID ){

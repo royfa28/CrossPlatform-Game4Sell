@@ -32,22 +32,6 @@ export class SigninPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
-    this.showFingerprintDialog();
-  }
-
-  showFingerprintDialog(){
-    this.fingerprint.show(this.fingerprintOptions)
-    .then(result => {
-      if( result == "biometric_success"){
-        console.log("Add to database");
-      }else{
-        console.log("cancel");
-      }
-      console.log(result);
-    })
-    .catch(err =>{
-      console.log(err);
-    });
   }
 
   signIn() {

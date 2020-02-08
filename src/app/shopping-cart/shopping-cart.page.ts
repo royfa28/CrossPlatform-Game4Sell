@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../data/shopping-cart.service';
 import { ShopCart } from 'src/models/shop-cart';
 import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
+import { PurchaseHistoryService } from '../data/purchase-history.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,6 +18,7 @@ export class ShoppingCartPage implements OnInit {
   constructor(
     private shopCartData: ShoppingCartService,
     private fingerprint: FingerprintAIO,
+    private purchase: PurchaseHistoryService
   ) {
     this.fingerprintOptions = {
       title: 'Log in with fingerprint',
@@ -52,18 +54,20 @@ export class ShoppingCartPage implements OnInit {
   }
 
   showFingerprintDialog(){
-    this.fingerprint.show(this.fingerprintOptions)
-    .then(result => {
-      if( result == "biometric_success"){
-        console.log("Add to database");
-      }else{
-        console.log("cancel");
-      }
-      console.log(result);
-    })
-    .catch(err =>{
-      console.log(err);
-    });
+
+    this.purchase.addPurchase();
+    // this.fingerprint.show(this.fingerprintOptions)
+    // .then(result => {
+    //   if( result == "biometric_success"){
+    //     console.log("Add to database");
+    //   }else{
+    //     console.log("cancel");
+    //   }
+    //   console.log(result);
+    // })
+    // .catch(err =>{
+    //   console.log(err);
+    // });
   }
 
 }
