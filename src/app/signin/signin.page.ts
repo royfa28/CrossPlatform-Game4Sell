@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SignupPage } from '../signup/signup.page';
 import { DataService } from '../data/data.service';
 import * as firebase from 'firebase';
+import { AlertService } from '../data/alert.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class SigninPage implements OnInit {
     private auth: AuthService,
     private data: DataService,
     private alertController: AlertController,
+    private alertService: AlertService
   ) { 
   }
 
@@ -42,7 +44,7 @@ export class SigninPage implements OnInit {
         this.router.navigate(['/homepage']);
       })
       .catch((error) => {
-        console.log(error)
+        this.alertService.wrongPassword(error.message);
       })
   }
 
@@ -64,6 +66,7 @@ export class SigninPage implements OnInit {
           })
           .catch((error) => {
             // handle errors
+            
             console.log(error);
           })
       }
@@ -93,24 +96,16 @@ export class SigninPage implements OnInit {
         }, {
           text: 'Okay',
           handler: (data) => {
-            this.resetPassword(data.email);
+            this.auth.resetPassword(data.email).then( () =>{
+              this.alertService.passResetSuccess();
+            }).catch( (error) =>{
+              this.alertService.resetPass(error.message);
+            })
             console.log(data);
           }
         }
       ]
     });
     await alert.present();
-  }
-
-  resetPassword( email ){
-    var auth = firebase.auth();
-    
-    auth.sendPasswordResetEmail(email).then(function() {
-      // Email sent.
-      console.log("email sent");
-    }).catch(function(error) {
-      // An error happened.
-      console.log(error.message);
-    });
   }
 }

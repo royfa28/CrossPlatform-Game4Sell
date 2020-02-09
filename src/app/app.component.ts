@@ -47,9 +47,7 @@ export class AppComponent {
       }
       else {
         this.appPages = [
-          {title: 'Profile' , url: '/profile', icon: 'home'},
-          {title: 'Homepage' , url: '/homepage', icon: 'home'},
-          {title: 'History' , url: '/history', icon: 'settings'}
+          {title: 'Homepage' , url: '/homepage', icon: 'home'}
         ]
         this.user = null;
       }

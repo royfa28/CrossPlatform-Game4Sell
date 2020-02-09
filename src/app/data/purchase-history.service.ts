@@ -7,6 +7,8 @@ import { ShoppingCartService } from './shopping-cart.service';
 import { ShopCart } from 'src/models/shop-cart';
 import { map } from 'rxjs/operators';
 import { PurchaseHistory } from 'src/models/purchase-history';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +22,16 @@ export class PurchaseHistoryService {
   private authStatus: Subscription;
   public Cart: Array<ShopCart> = new Array();
   public historyList = new BehaviorSubject<PurchaseHistory[]>([]);
-  date: string = new Date().toUTCString();
+  date: string = new Date().toISOString();
 
   private historyCollection: AngularFirestoreCollection<PurchaseHistory>;
 
   constructor(
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private shopCartData: ShoppingCartService
+    public shopCartData: ShoppingCartService,
+    private router: Router,
+    private toastController: ToastController
     
   ) {
     this.authStatus = afAuth.authState.subscribe((user) => {
@@ -59,14 +63,16 @@ export class PurchaseHistoryService {
       totalPrice: this.total
     }
 
-    db.collection('Users').doc(this.uid).collection('Orders').doc(this.date).set(products)
+    db.collection('Users').doc(this.uid).collection('Orders').add(products)
       .then(( doc ) => {
-  
+        this.shopCartData.removeCart();
+        this.router.navigate(['/homepage']);
+        this.purchaseSuccess();
       }).catch(( error ) => {
+        this.purchaseFailed();
         console.log(error);
     });
 
-    this.shopCartData.removeCart();
   }
 
   getHistory(){
@@ -89,5 +95,21 @@ export class PurchaseHistoryService {
   getTotalPrice( totalPrice ){
     this.total = totalPrice + this.total;
     return this.total;
+  }
+
+  async purchaseSuccess(){
+    const toast = await this.toastController.create({
+      message: 'Thank you for purchasing.',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async purchaseFailed(){
+    const toast = await this.toastController.create({
+      message: 'Purchase failed, please check your internet connection',
+      duration: 2000
+    });
+    toast.present();
   }
 }

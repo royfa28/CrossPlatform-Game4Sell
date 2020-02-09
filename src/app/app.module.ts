@@ -21,6 +21,7 @@ import { ProductDetailsPageModule } from './product-details/product-details.modu
 import { ShoppingCartService } from './data/shopping-cart.service';
 import { ShoppingCartPageModule } from './shopping-cart/shopping-cart.module';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { PurchaseHistoryService } from './data/purchase-history.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +42,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
     { provide: StorageBucket, useValue: 'gs://games-4-sell.appspot.com/' },
     DataService,
     ShoppingCartService,
+    PurchaseHistoryService,
     StatusBar,
     SplashScreen,
     FingerprintAIO,

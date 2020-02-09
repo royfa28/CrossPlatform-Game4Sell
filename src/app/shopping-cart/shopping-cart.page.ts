@@ -4,6 +4,7 @@ import { ShopCart } from 'src/models/shop-cart';
 import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 import { PurchaseHistoryService } from '../data/purchase-history.service';
 import { element } from 'protractor';
+import { AlertService } from '../data/alert.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,7 +20,8 @@ export class ShoppingCartPage implements OnInit {
   constructor(
     private shopCartData: ShoppingCartService,
     private fingerprint: FingerprintAIO,
-    private purchase: PurchaseHistoryService
+    private purchase: PurchaseHistoryService,
+    private alertService: AlertService
   ) {
     this.fingerprintOptions = {
       title: 'Log in with fingerprint',
@@ -60,19 +62,21 @@ export class ShoppingCartPage implements OnInit {
 
   showFingerprintDialog(){
 
-    this.purchase.addPurchase();
-    // this.fingerprint.show(this.fingerprintOptions)
-    // .then(result => {
-    //   if( result == "biometric_success"){
-    //     console.log("Add to database");
-    //   }else{
-    //     console.log("cancel");
-    //   }
-    //   console.log(result);
-    // })
-    // .catch(err =>{
-    //   console.log(err);
-    // });
+    // this.purchase.addPurchase();
+    this.fingerprint.show(this.fingerprintOptions)
+    .then(result => {
+      if( result == "biometric_success"){
+        this.purchase.addPurchase();
+        console.log("Add to database");
+      }else{
+        console.log("cancel");
+      }
+      console.log(result);
+    })
+    .catch(err =>{
+      this.alertService.enableFingerprint();
+      console.log("Result", err);
+    });
   }
 
 }

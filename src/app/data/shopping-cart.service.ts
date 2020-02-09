@@ -68,6 +68,7 @@ export class ShoppingCartService {
       }else{
         this.shopCartDocument.set(productData);
         this.alertService.addedToCart();
+        this.router.navigate(['/homepage']);
       }
     })
   }

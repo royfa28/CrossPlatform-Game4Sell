@@ -31,4 +31,15 @@ export class AuthService {
       });
     });
   }
+
+  resetPassword( email ){
+    return new Promise( (resolve, reject) => {
+      this.afAuth.auth.sendPasswordResetEmail(email)
+      .then( () => {
+        resolve();
+      }).catch( (error) => {
+        reject( error );
+      })
+    })
+  }
 }
