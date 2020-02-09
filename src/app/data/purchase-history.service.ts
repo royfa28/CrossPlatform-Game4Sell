@@ -22,7 +22,7 @@ export class PurchaseHistoryService {
   private authStatus: Subscription;
   public Cart: Array<ShopCart> = new Array();
   public historyList = new BehaviorSubject<PurchaseHistory[]>([]);
-  date: string = new Date().toISOString();
+  date: string = new Date().toUTCString();
 
   private historyCollection: AngularFirestoreCollection<PurchaseHistory>;
 
@@ -60,7 +60,8 @@ export class PurchaseHistoryService {
     
     var products = {
       details: this.purchaseList,
-      totalPrice: this.total
+      totalPrice: this.total,
+      orderDate: this.date
     }
 
     db.collection('Users').doc(this.uid).collection('Orders').add(products)
