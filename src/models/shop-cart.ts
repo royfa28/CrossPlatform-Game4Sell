@@ -3,4 +3,5 @@ export interface ShopCart {
     Price: number;
     photoUrl: string;
     Quantity: number;
+    totalPrice: number;
 }

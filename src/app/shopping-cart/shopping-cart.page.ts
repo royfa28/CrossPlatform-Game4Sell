@@ -3,6 +3,7 @@ import { ShoppingCartService } from '../data/shopping-cart.service';
 import { ShopCart } from 'src/models/shop-cart';
 import { FingerprintAIO, FingerprintOptions } from '@ionic-native/fingerprint-aio/ngx';
 import { PurchaseHistoryService } from '../data/purchase-history.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -12,7 +13,7 @@ import { PurchaseHistoryService } from '../data/purchase-history.service';
 export class ShoppingCartPage implements OnInit {
 
   public Cart: Array<ShopCart> = new Array();
-  public total: number;
+  public total: number = 0;
   fingerprintOptions: FingerprintOptions;
   
   constructor(
@@ -29,6 +30,10 @@ export class ShoppingCartPage implements OnInit {
 
   ngOnInit() {
     this.getShopCart();
+  }
+
+  ionViewWillEnter() {
+    
   }
 
   // Get the data of the shopping cart

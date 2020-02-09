@@ -56,7 +56,8 @@ export class ShoppingCartService {
       Name: product.Name,
       photoUrl: product.photoUrl,
       Price: product.Price,
-      Quantity: 1
+      Quantity: 1,
+      totalPrice: product.Price
     }
 
     db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).get().then(( doc ) => {
@@ -120,6 +121,7 @@ export class ShoppingCartService {
       if(Quantity <= 1){
         this.alertService.deletedToast();
         db.collection('Users').doc(this.uid).collection('shoppingCart').doc(productID).delete();
+        this.total = 0;
       }else{
         var quantity ={
           Quantity: this.product.Quantity - 1

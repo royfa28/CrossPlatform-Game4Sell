@@ -65,8 +65,8 @@ export class ProductDetailsPage implements OnInit {
 
       // Check if user is logged in, only registered user can add products to cart
       if( user ) {
-        this.shopCart.addToCart(this.ID, user.uid, this.detail);
         this.user = user;
+        this.shopCart.addToCart(this.ID, user.uid, this.detail);
       }else{
         this.alertService.notLoggedin();
         this.user = null;
